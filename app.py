@@ -3232,11 +3232,6 @@ with gr.Blocks() as demo:
                 '''
             )
 
-    # 1.1 Row: Sides of Zero Bar Display
-    with gr.Row():
-        with gr.Accordion("Dealer’s Spin Tracker", open=True, elem_id="sides-of-zero-accordion"):
-            sides_of_zero_display
-
     # 2. Row 2: European Roulette Table
     with gr.Group():
         gr.Markdown("### European Roulette Table")
@@ -3637,7 +3632,6 @@ with gr.Blocks() as demo:
             save_button = gr.Button("Save Session", elem_id="save-session-btn")
             load_input = gr.File(label="Upload Session")
         save_output = gr.File(label="Download Session")
-
 
         
     # CSS and Event Handlers
