@@ -324,6 +324,7 @@ colors = {
 }
 
 
+# Lines before (context)
 def format_spins_as_html(spins, num_to_show):
     if not spins:
         return "<h4>Last Spins</h4><p>No spins yet.</p>"
@@ -353,6 +354,58 @@ def format_spins_as_html(spins, num_to_show):
     # Wrap the spins in a div with flexbox to enable wrapping, and add a title
     return f'<h4 style="margin-bottom: 5px;">Last Spins</h4><div style="display: flex; flex-wrap: wrap; gap: 5px;">{"".join(html_spins)}</div>'
 
+# Start of the function (Line 1 for context)
+def render_sides_of_zero_display():
+    left_hits = state.side_scores["Left Side of Zero"]
+    zero_hits = state.scores[0]
+    right_hits = state.side_scores["Right Side of Zero"]
+    max_hits = max(left_hits, zero_hits, right_hits, 1)
+    left_width = (left_hits / max_hits) * 100
+    zero_width = (zero_hits / max_hits) * 100
+    right_width = (right_hits / max_hits) * 100
+    return f"""
+    <style>
+        #left-bar:hover, #zero-bar:hover, #right-bar:hover {{
+            filter: brightness(1.2);
+            transform: scale(1.02);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }}
+    </style>
+    <div style="background-color: #f5f5f5; border: 1px solid #d3d3d3; border-radius: 5px; padding: 10px;">
+        <h4 style="text-align: center; margin: 0 0 10px 0; font-family: Arial, sans-serif;">Dealer’s Spin Tracker</h4>
+        <div id="sides-of-zero" style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="width: 100px;" id="left-label">Left Side ({left_hits})</span>
+                <div style="flex-grow: 1; background: linear-gradient(to right, #3498db, #5dade2); height: 20px; width: {left_width}%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border-radius: 5px; border: 1px solid #d3d3d3;" id="left-bar"></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="width: 100px;" id="zero-label">Zero ({zero_hits})</span>
+                <div style="flex-grow: 1; background: linear-gradient(to right, #2ecc71, #27ae60); height: 20px; width: {zero_width}%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border-radius: 5px; border: 1px solid #d3d3d3;" id="zero-bar"></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="width: 100px;" id="right-label">Right Side ({right_hits})</span>
+                <div style="flex-grow: 1; background: linear-gradient(to right, #e74c3c, #c0392b); height: 20px; width: {right_width}%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border-radius: 5px; border: 1px solid #d3d3d3;" id="right-bar"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateBar(barId, width, labelId, labelText) {{
+            const bar = document.getElementById(barId);
+            const label = document.getElementById(labelId);
+            if (bar && label) {{
+                bar.style.width = width + '%';
+                label.textContent = labelText;
+            }} else {{
+                console.error('Element not found: ' + (bar ? labelId : barId));
+            }}
+        }}
+        updateBar('left-bar', {left_width}, 'left-label', 'Left Side ({left_hits})');
+        updateBar('zero-bar', {zero_width}, 'zero-label', 'Zero ({zero_hits})');
+        updateBar('right-bar', {right_width}, 'right-label', 'Right Side ({right_hits})');
+    </script>
+    """
+
+# Lines after (context)
 def add_spin(number, current_spins, num_to_show):
     print(f"add_spin: number='{number}', current_spins='{current_spins}'")
     spins = current_spins.split(", ") if current_spins else []
@@ -363,7 +416,7 @@ def add_spin(number, current_spins, num_to_show):
     numbers = [n.strip() for n in number.split(",") if n.strip()]
     if not numbers:
         gr.Warning("No valid input provided. Please enter numbers between 0 and 36.")
-        return current_spins, current_spins, "<h4>Last Spins</h4><p>Error: No valid numbers provided.</p>", update_spin_counter()
+        return current_spins, current_spins, "<h4>Last Spins</h4><p>Error: No valid numbers provided.</p>", update_spin_counter(), render_sides_of_zero_display()
 
     errors = []
     valid_spins = []
@@ -382,7 +435,7 @@ def add_spin(number, current_spins, num_to_show):
         error_msg = "Some inputs failed:\n- " + "\n- ".join(errors)
         gr.Warning(error_msg)
         print(f"add_spin: Errors encountered - {error_msg}")
-        return current_spins, current_spins, f"<h4>Last Spins</h4><p>{error_msg}</p>", update_spin_counter()
+        return current_spins, current_spins, f"<h4>Last Spins</h4><p>{error_msg}</p>", update_spin_counter(), render_sides_of_zero_display()
 
     # Batch update scores
     action_log = update_scores_batch(valid_spins)
@@ -406,16 +459,19 @@ def add_spin(number, current_spins, num_to_show):
         error_msg = "Some inputs failed:\n- " + "\n- ".join(errors)
         gr.Warning(error_msg)
         print(f"add_spin: Errors encountered - {error_msg}")
-        return new_spins_str, new_spins_str, f"<h4>Last Spins</h4><p>{error_msg}</p>", update_spin_counter()
+        return new_spins_str, new_spins_str, f"<h4>Last Spins</h4><p>{error_msg}</p>", update_spin_counter(), render_sides_of_zero_display()
 
     print(f"add_spin: new_spins='{new_spins_str}'")
-    return new_spins_str, new_spins_str, format_spins_as_html(new_spins_str, num_to_show), update_spin_counter()
+    return new_spins_str, new_spins_str, format_spins_as_html(new_spins_str, num_to_show), update_spin_counter(), render_sides_of_zero_display()
     
 # Function to clear spins
 def clear_spins():
     state.selected_numbers.clear()
     state.last_spins = []
-    return "", "", "Spins cleared successfully!", "", update_spin_counter()
+    state.spin_history = []  # Clear spin history as well
+    state.side_scores = {"Left Side of Zero": 0, "Right Side of Zero": 0}  # Reset side scores
+    state.scores = {n: 0 for n in range(37)}  # Reset straight-up scores
+    return "", "", "Spins cleared successfully!", "<h4>Last Spins</h4><p>No spins yet.</p>", update_spin_counter(), render_sides_of_zero_display()
 
 # Function to save the session
 def save_session():
@@ -1229,7 +1285,7 @@ def analyze_spins(spins_input, reset_scores, strategy_name, neighbours_count, *c
         print(f"analyze_spins: Starting with spins_input='{spins_input}', strategy_name='{strategy_name}', neighbours_count={neighbours_count}")
         if not spins_input or not spins_input.strip():
             print("analyze_spins: No spins input provided.")
-            return "Please enter at least one number (e.g., 5, 12, 0).", "", "", "", "", "", "", "", "", "", "", "", "", ""
+            return "Please enter at least one number (e.g., 5, 12, 0).", "", "", "", "", "", "", "", "", "", "", "", "", "", render_sides_of_zero_display()
 
         raw_spins = [spin.strip() for spin in spins_input.split(",") if spin.strip()]
         spins = []
@@ -1249,11 +1305,11 @@ def analyze_spins(spins_input, reset_scores, strategy_name, neighbours_count, *c
         if errors:
             error_msg = "\n".join(errors)
             print(f"analyze_spins: Errors found - {error_msg}")
-            return error_msg, "", "", "", "", "", "", "", "", "", "", "", "", ""
+            return error_msg, "", "", "", "", "", "", "", "", "", "", "", "", "", render_sides_of_zero_display()
 
         if not spins:
             print("analyze_spins: No valid spins found.")
-            return "No valid numbers found. Please enter numbers like '5, 12, 0'.", "", "", "", "", "", "", "", "", "", "", "", "", ""
+            return "No valid numbers found. Please enter numbers like '5, 12, 0'.", "", "", "", "", "", "", "", "", "", "", "", "", "", render_sides_of_zero_display()
 
         if reset_scores:
             state.reset()
@@ -1364,10 +1420,10 @@ def analyze_spins(spins_input, reset_scores, strategy_name, neighbours_count, *c
 
         return (spin_analysis_output, even_money_output, dozens_output, columns_output,
                 streets_output, corners_output, six_lines_output, splits_output, sides_output,
-                straight_up_html, top_18_html, strongest_numbers_output, dynamic_table_html, strategy_output)
+                straight_up_html, top_18_html, strongest_numbers_output, dynamic_table_html, strategy_output, render_sides_of_zero_display())
     except Exception as e:
         print(f"analyze_spins: Unexpected error: {str(e)}")
-        return f"Unexpected error while analyzing spins: {str(e)}. Please try again.", "", "", "", "", "", "", "", "", "", "", "", "", ""
+        return f"Unexpected error while analyzing spins: {str(e)}. Please try again.", "", "", "", "", "", "", "", "", "", "", "", "", "", render_sides_of_zero_display()
 
 # Function to reset scores
 def reset_scores():
@@ -1376,12 +1432,12 @@ def reset_scores():
 
 def undo_last_spin(current_spins_display, undo_count, strategy_name, neighbours_count, strong_numbers_count, *checkbox_args):
     if not state.spin_history:
-        return ("No spins to undo.", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table(), update_spin_counter())
+        return ("No spins to undo.", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table(), update_spin_counter(), render_sides_of_zero_display())
 
     try:
         undo_count = int(undo_count)
         if undo_count <= 0:
-            return ("Please select a positive number of spins to undo.", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table())
+            return ("Please select a positive number of spins to undo.", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table(), update_spin_counter(), render_sides_of_zero_display())
         undo_count = min(undo_count, len(state.spin_history))  # Don't exceed history length
 
         # Undo the specified number of spins
@@ -1444,18 +1500,17 @@ def undo_last_spin(current_spins_display, undo_count, strategy_name, neighbours_
         return (spin_analysis_output, even_money_output, dozens_output, columns_output,
             streets_output, corners_output, six_lines_output, splits_output, sides_output,
             straight_up_html, top_18_html, strongest_numbers_output, spins_input, spins_input,
-            dynamic_table_html, strategy_output, create_color_code_table(), update_spin_counter())
+            dynamic_table_html, strategy_output, create_color_code_table(), update_spin_counter(), render_sides_of_zero_display())
     except ValueError:
-        return ("Error: Invalid undo count. Please use a positive number.", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table())
+        return ("Error: Invalid undo count. Please use a positive number.", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table(), update_spin_counter(), render_sides_of_zero_display())
     except Exception as e:
         print(f"undo_last_spin: Unexpected error: {str(e)}")
-        return (f"Unexpected error during undo: {str(e)}", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table())
-
+        return (f"Unexpected error during undo: {str(e)}", "", "", "", "", "", "", "", "", "", "", current_spins_display, current_spins_display, "", create_dynamic_table(strategy_name, neighbours_count, strong_numbers_count), "", create_color_code_table(), update_spin_counter(), render_sides_of_zero_display())
 def clear_all():
     state.selected_numbers.clear()
     state.last_spins = []
     state.reset()
-    return "", "", "All spins and scores cleared successfully!", "", "", "", "", "", "", "", "", "", "", "", "", update_spin_counter()
+    return "", "", "All spins and scores cleared successfully!", "<h4>Last Spins</h4><p>No spins yet.</p>", "", "", "", "", "", "", "", "", "", "", "", update_spin_counter(), render_sides_of_zero_display()
 
 def reset_strategy_dropdowns():
     default_category = "Even Money Strategies"
@@ -1467,9 +1522,12 @@ def generate_random_spins(num_spins, current_spins_display, last_spin_count):
     try:
         num_spins = int(num_spins)
         if num_spins <= 0:
-            return current_spins_display, current_spins_display, "Please select a number of spins greater than 0.", update_spin_counter()
+            return current_spins_display, current_spins_display, "Please select a number of spins greater than 0.", update_spin_counter(), render_sides_of_zero_display()
 
         new_spins = [str(random.randint(0, 36)) for _ in range(num_spins)]
+        # Update scores for the new spins
+        update_scores_batch(new_spins)
+
         if current_spins_display and current_spins_display.strip():
             current_spins = current_spins_display.split(", ")
             updated_spins = current_spins + new_spins
@@ -1480,13 +1538,13 @@ def generate_random_spins(num_spins, current_spins_display, last_spin_count):
         state.last_spins = updated_spins  # Replace the list entirely
         spins_text = ", ".join(updated_spins)
         print(f"generate_random_spins: Setting spins_textbox to '{spins_text}'")
-        return spins_text, spins_text, f"Generated {num_spins} random spins: {', '.join(new_spins)}", update_spin_counter()
+        return spins_text, spins_text, f"Generated {num_spins} random spins: {', '.join(new_spins)}", update_spin_counter(), render_sides_of_zero_display()
     except ValueError:
         print("generate_random_spins: Invalid number of spins entered.")
-        return current_spins_display, current_spins_display, "Please enter a valid number of spins.", update_spin_counter()
+        return current_spins_display, current_spins_display, "Please enter a valid number of spins.", update_spin_counter(), render_sides_of_zero_display()
     except Exception as e:
         print(f"generate_random_spins: Unexpected error: {str(e)}")
-        return current_spins_display, current_spins_display, f"Error generating spins: {str(e)}", update_spin_counter()
+        return current_spins_display, current_spins_display, f"Error generating spins: {str(e)}", update_spin_counter(), render_sides_of_zero_display()
 
 # Strategy functions
 def best_even_money_bets():
@@ -3137,10 +3195,20 @@ with gr.Blocks() as demo:
         interactive=True,
         elem_id="selected-spins"
     )
+    spin_counter = gr.HTML(
+        label="Total Spins",
+        value='<span style="font-size: 16px;">Total Spins: 0</span>',
+        elem_classes=["spin-counter"]
+    )
+    sides_of_zero_display = gr.HTML(
+        label="Sides of Zero",
+        value=render_sides_of_zero_display(),
+        elem_classes=["sides-of-zero-container"]
+    )
     last_spin_display = gr.HTML(
         label="Last Spins",
-        value="",
-        elem_classes=["last-spins-container"]  # Add styling for Last Spins
+        value='<h4>Last Spins</h4><p>No spins yet.</p>',
+        elem_classes=["last-spins-container"]
     )
     last_spin_count = gr.Slider(
         label="Show Last Spins",
@@ -3151,26 +3219,6 @@ with gr.Blocks() as demo:
         interactive=True,
         elem_classes="long-slider"
     )
-    spin_counter = gr.HTML(
-        value='<span style="font-size: 16px;">Total Spins: 0</span>',  # Restore inline label
-        label="Total Spins",
-        elem_classes=["spin-counter"]  # Restore styling class
-    )
-
-    # Define strategy categories and choices
-    strategy_categories = {
-        "Trends": ["Cold Bet Strategy", "Hot Bet Strategy", "Best Dozens + Best Even Money Bets + Top Pick 18 Numbers", "Best Columns + Best Even Money Bets + Top Pick 18 Numbers"],
-        "Even Money Strategies": ["Best Even Money Bets", "Best Even Money Bets + Top Pick 18 Numbers", "Fibonacci To Fortune"],
-        "Dozen Strategies": ["1 Dozen +1 Column Strategy", "Best Dozens", "Best Dozens + Top Pick 18 Numbers", "Best Dozens + Best Even Money Bets + Top Pick 18 Numbers", "Best Dozens + Best Streets", "Fibonacci Strategy", "Romanowksy Missing Dozen"],
-        "Column Strategies": ["1 Dozen +1 Column Strategy", "Best Columns", "Best Columns + Top Pick 18 Numbers", "Best Columns + Best Even Money Bets + Top Pick 18 Numbers", "Best Columns + Best Streets"],
-        "Street Strategies": ["3-8-6 Rising Martingale", "Best Streets", "Best Columns + Best Streets", "Best Dozens + Best Streets"],
-        "Double Street Strategies": ["Best Double Streets", "Non-Overlapping Double Street Strategy"],
-        "Corner Strategies": ["Best Corners", "Non-Overlapping Corner Strategy"],
-        "Split Strategies": ["Best Splits"],
-        "Number Strategies": ["Top Numbers with Neighbours (Tiered)", "Top Pick 18 Numbers without Neighbours"],
-        "Neighbours Strategies": ["Neighbours of Strong Number"]
-    }
-    category_choices = ["None"] + sorted(strategy_categories.keys())
 
     # 1. Row 1: Header
     with gr.Row(elem_id="header-row"):
@@ -3185,6 +3233,11 @@ with gr.Blocks() as demo:
                 '''
             )
 
+    # 1.1 Row: Sides of Zero Bar Display
+    with gr.Row():
+        with gr.Accordion("Dealer’s Spin Tracker", open=True, elem_id="sides-of-zero-accordion"):
+            sides_of_zero_display
+
     # 2. Row 2: European Roulette Table
     with gr.Group():
         gr.Markdown("### European Roulette Table")
@@ -3193,28 +3246,28 @@ with gr.Blocks() as demo:
             ["0", "2", "5", "8", "11", "14", "17", "20", "23", "26", "29", "32", "35"],
             ["", "1", "4", "7", "10", "13", "16", "19", "22", "25", "28", "31", "34"]
         ]
-    with gr.Column(elem_classes="roulette-table"):
-        for row in table_layout:
-            with gr.Row(elem_classes="table-row"):
-                for num in row:
-                    if num == "":
-                        gr.Button(value=" ", interactive=False, min_width=40, elem_classes="empty-button")
-                    else:
-                        color = colors.get(str(num), "black")
-                        is_selected = int(num) in state.selected_numbers
-                        btn_classes = [f"roulette-button", color]
-                        if is_selected:
-                            btn_classes.append("selected")
-                        btn = gr.Button(
-                            value=num,
-                            min_width=40,
-                            elem_classes=btn_classes
-                        )
-                        btn.click(
-                            fn=add_spin,
-                            inputs=[gr.State(value=num), spins_display, last_spin_count],
-                            outputs=[spins_display, spins_textbox, last_spin_display, spin_counter]
-                        )
+        with gr.Column(elem_classes="roulette-table"):
+            for row in table_layout:
+                with gr.Row(elem_classes="table-row"):
+                    for num in row:
+                        if num == "":
+                            gr.Button(value=" ", interactive=False, min_width=40, elem_classes="empty-button")
+                        else:
+                            color = colors.get(str(num), "black")
+                            is_selected = int(num) in state.selected_numbers
+                            btn_classes = [f"roulette-button", color]
+                            if is_selected:
+                                btn_classes.append("selected")
+                            btn = gr.Button(
+                                value=num,
+                                min_width=40,
+                                elem_classes=btn_classes
+                            )
+                            btn.click(
+                                fn=add_spin,
+                                inputs=[gr.State(value=num), spins_display, last_spin_count],
+                                outputs=[spins_display, spins_textbox, last_spin_display, spin_counter, sides_of_zero_display]
+                            )
 
     # 3. Row 3: Last Spins Display and Show Last Spins Slider
     with gr.Row():
@@ -3237,6 +3290,21 @@ with gr.Blocks() as demo:
             spins_textbox
         with gr.Column(scale=1, min_width=200):
             spin_counter  # Restore side-by-side layout with styling
+
+    # Define strategy categories and choices
+    strategy_categories = {
+        "Trends": ["Cold Bet Strategy", "Hot Bet Strategy", "Best Dozens + Best Even Money Bets + Top Pick 18 Numbers", "Best Columns + Best Even Money Bets + Top Pick 18 Numbers"],
+        "Even Money Strategies": ["Best Even Money Bets", "Best Even Money Bets + Top Pick 18 Numbers", "Fibonacci To Fortune"],
+        "Dozen Strategies": ["1 Dozen +1 Column Strategy", "Best Dozens", "Best Dozens + Top Pick 18 Numbers", "Best Dozens + Best Even Money Bets + Top Pick 18 Numbers", "Best Dozens + Best Streets", "Fibonacci Strategy", "Romanowksy Missing Dozen"],
+        "Column Strategies": ["1 Dozen +1 Column Strategy", "Best Columns", "Best Columns + Top Pick 18 Numbers", "Best Columns + Best Even Money Bets + Top Pick 18 Numbers", "Best Columns + Best Streets"],
+        "Street Strategies": ["3-8-6 Rising Martingale", "Best Streets", "Best Columns + Best Streets", "Best Dozens + Best Streets"],
+        "Double Street Strategies": ["Best Double Streets", "Non-Overlapping Double Street Strategy"],
+        "Corner Strategies": ["Best Corners", "Non-Overlapping Corner Strategy"],
+        "Split Strategies": ["Best Splits"],
+        "Number Strategies": ["Top Numbers with Neighbours (Tiered)", "Top Pick 18 Numbers without Neighbours"],
+        "Neighbours Strategies": ["Neighbours of Strong Number"]
+    }
+    category_choices = ["None"] + sorted(strategy_categories.keys())
     
     # 6. Row 6: Analyze Spins, Clear Spins, and Clear All Buttons
     with gr.Row():
@@ -3701,13 +3769,39 @@ with gr.Blocks() as demo:
       }
     
       /* Last Spins Container */
-      .last-spins-container {
+            .last-spins-container {
           background-color: #f5f5f5 !important; /* Light gray background */
           border: 1px solid #d3d3d3 !important; /* Subtle gray border */
           padding: 10px !important;
           border-radius: 5px !important;
           margin-top: 10px !important;
           box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important; /* Very light shadow */
+      }
+
+      .sides-of-zero-container {
+          background-color: #ffffff !important;
+          border: 1px solid #d3d3d3 !important;
+          padding: 10px !important;
+          border-radius: 5px !important;
+          margin: 10px 0 !important;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+      }
+    
+      /* Spin Counter Styling */
+      .spin-counter {
+          font-size: 16px !important;
+          font-weight: bold !important;
+          color: #ffffff !important;
+          background: linear-gradient(135deg, #87CEEB, #5DADE2) !important; /* Soft blue gradient */
+          padding: 8px 12px !important;
+          border: 2px solid #3498DB !important; /* Darker blue border */
+          border-radius: 8px !important;
+          margin-top: 0 !important; /* Align with textbox */
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important; /* Slightly stronger shadow */
+          transition: transform 0.2s ease, box-shadow 0.2s ease !important; /* Smooth hover effect */
       }
     
       /* Responsive Design */
@@ -3782,6 +3876,19 @@ with gr.Blocks() as demo:
         fn=validate_spins_input,
         inputs=spins_textbox,
         outputs=[spins_display, last_spin_display]
+    ).then(
+        fn=analyze_spins,
+        inputs=[spins_display, reset_scores_checkbox, strategy_dropdown, neighbours_count_slider, strong_numbers_count_slider],
+        outputs=[
+            spin_analysis_output, even_money_output, dozens_output, columns_output,
+            streets_output, corners_output, six_lines_output, splits_output,
+            sides_output, straight_up_html, top_18_html, strongest_numbers_output,
+            dynamic_table_output, strategy_output, sides_of_zero_display
+        ]
+    ).then(
+        fn=update_spin_counter,
+        inputs=[],
+        outputs=[spin_counter]
     )
     spins_display.change(
         fn=update_spin_counter,
@@ -3826,7 +3933,7 @@ with gr.Blocks() as demo:
     generate_spins_button.click(
         fn=generate_random_spins,
         inputs=[gr.State(value="5"), spins_display, last_spin_count],
-        outputs=[spins_display, spins_textbox, spin_analysis_output, spin_counter]
+        outputs=[spins_display, spins_textbox, spin_analysis_output, spin_counter, sides_of_zero_display]
     ).then(
         fn=format_spins_as_html,
         inputs=[spins_display, last_spin_count],
@@ -3888,7 +3995,7 @@ with gr.Blocks() as demo:
             spin_analysis_output, even_money_output, dozens_output, columns_output,
             streets_output, corners_output, six_lines_output, splits_output,
             sides_output, straight_up_html, top_18_html, strongest_numbers_output,
-            dynamic_table_output, strategy_output
+            dynamic_table_output, strategy_output, sides_of_zero_display
         ]
     ).then(
         fn=lambda strategy, neighbours_count, strong_numbers_count, dozen_tracker_spins, top_color, middle_color, lower_color: create_dynamic_table(strategy if strategy != "None" else None, neighbours_count, strong_numbers_count, dozen_tracker_spins, top_color, middle_color, lower_color),
