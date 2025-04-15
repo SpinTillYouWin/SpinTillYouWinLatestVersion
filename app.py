@@ -3874,14 +3874,14 @@ with gr.Blocks() as demo:
         save_output = gr.File(label="Download Session")
 
         
-    # CSS and Event Handlers
+    /* CSS and Event Handlers */
     gr.HTML("""
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/css/shepherd.css">
     <script src="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/js/shepherd.min.js"></script>
     <style>
       /* General Layout */
-      .gr-row { margin: 0 !important; padding: 5px 0 !important; }
-      .gr-column { margin: 0 !important; padding: 5px !important; }
+      .gr-row, .gr-column { margin: 0 !important; padding: 5px !important; }
+      .gr-column { display: flex !important; flex-direction: column !important; align-items: stretch !important; }
       .gr-box { border-radius: 5px !important; }
       
       /* Hide stray labels in the Sides of Zero section */
