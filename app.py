@@ -3792,16 +3792,18 @@ def show_strategy_recommendations(strategy_name, neighbours_count, strong_number
         else:
             recommendations = strategy_func()
 
-        print(f"show_strategy_recommendations: Strategy {strategy_name} output = {recommendations}")
+        print(f"show_strategy_recommendations: Raw strategy output for {strategy_name} = '{recommendations}'")
 
-        # If the output is already HTML, return it as is
+        # If the output is already HTML (e.g., for "Top Numbers with Neighbours (Tiered)"), return it as is
         if strategy_name == "Top Numbers with Neighbours (Tiered)":
             return recommendations
-        # Otherwise, convert plain text to HTML
+        # Otherwise, convert plain text to HTML with proper line breaks
         else:
-            lines = recommendations.split("\n")
-            html_lines = [f"<p>{line}</p>" for line in lines if line.strip()]
-            return "".join(html_lines)
+            # Split the output into lines, removing any empty lines
+            lines = [line for line in recommendations.split("\n") if line.strip()]
+            # Wrap each line in <p> tags and join with <br> for proper spacing
+            html_lines = [f"<p style='margin: 2px 0;'>{line}</p>" for line in lines]
+            return "<div style='font-family: Arial, sans-serif; font-size: 14px;'>" + "".join(html_lines) + "</div>"
     except Exception as e:
         print(f"show_strategy_recommendations: Error: {str(e)}")
         return f"<p>Error generating strategy recommendations: {str(e)}</p>"
