@@ -2159,17 +2159,70 @@ def fibonacci_strategy():
     best_column_score = columns_hits[0][1] if columns_hits else 0
 
     if best_dozen_score > best_column_score:
+        # Dozens wins: show top two dozens
         recommendations.append("Best Category: Dozens")
-        recommendations.append(f"Best Dozen: {dozens_hits[0][0]} (Score: {dozens_hits[0][1]})")
+        top_dozens = []
+        scores_seen = set()
+        for name, score in sorted_dozens:
+            if len(top_dozens) < 2 or score in scores_seen:
+                top_dozens.append((name, score))
+                scores_seen.add(score)
+            else:
+                break
+        for i, (name, score) in enumerate(top_dozens[:2], 1):
+            recommendations.append(f"Best Dozen {i}: {name} (Score: {score})")
+        # Check for ties among the top two
+        if len(top_dozens) > 1 and top_dozens[0][1] == top_dozens[1][1]:
+            tied_dozens = [name for name, score in top_dozens if score == top_dozens[0][1]]
+            recommendations.append(f"Note: Tie for 1st place among {', '.join(tied_dozens)} with score {top_dozens[0][1]}")
     elif best_column_score > best_dozen_score:
+        # Columns wins: show top two columns
         recommendations.append("Best Category: Columns")
-        recommendations.append(f"Best Column: {columns_hits[0][0]} (Score: {columns_hits[0][1]})")
+        top_columns = []
+        scores_seen = set()
+        for name, score in sorted_columns:
+            if len(top_columns) < 2 or score in scores_seen:
+                top_columns.append((name, score))
+                scores_seen.add(score)
+            else:
+                break
+        for i, (name, score) in enumerate(top_columns[:2], 1):
+            recommendations.append(f"Best Column {i}: {name} (Score: {score})")
+        # Check for ties among the top two
+        if len(top_columns) > 1 and top_columns[0][1] == top_columns[1][1]:
+            tied_columns = [name for name, score in top_columns if score == top_columns[0][1]]
+            recommendations.append(f"Note: Tie for 1st place among {', '.join(tied_columns)} with score {top_columns[0][1]}")
     else:
+        # Tie between Dozens and Columns: show both top options
         recommendations.append(f"Best Category (Tied): Dozens and Columns (Score: {best_dozen_score})")
         if dozens_hits:
-            recommendations.append(f"Best Dozen: {dozens_hits[0][0]} (Score: {dozens_hits[0][1]})")
+            top_dozens = []
+            scores_seen = set()
+            for name, score in sorted_dozens:
+                if len(top_dozens) < 2 or score in scores_seen:
+                    top_dozens.append((name, score))
+                    scores_seen.add(score)
+                else:
+                    break
+            for i, (name, score) in enumerate(top_dozens[:2], 1):
+                recommendations.append(f"Best Dozen {i}: {name} (Score: {score})")
+            if len(top_dozens) > 1 and top_dozens[0][1] == top_dozens[1][1]:
+                tied_dozens = [name for name, score in top_dozens if score == top_dozens[0][1]]
+                recommendations.append(f"Note: Tie for 1st place among {', '.join(tied_dozens)} with score {top_dozens[0][1]}")
         if columns_hits:
-            recommendations.append(f"Best Column: {columns_hits[0][0]} (Score: {columns_hits[0][1]})")
+            top_columns = []
+            scores_seen = set()
+            for name, score in sorted_columns:
+                if len(top_columns) < 2 or score in scores_seen:
+                    top_columns.append((name, score))
+                    scores_seen.add(score)
+                else:
+                    break
+            for i, (name, score) in enumerate(top_columns[:2], 1):
+                recommendations.append(f"Best Column {i}: {name} (Score: {score})")
+            if len(top_columns) > 1 and top_columns[0][1] == top_columns[1][1]:
+                tied_columns = [name for name, score in top_columns if score == top_columns[0][1]]
+                recommendations.append(f"Note: Tie for 1st place among {', '.join(tied_columns)} with score {top_columns[0][1]}")
 
     return "\n".join(recommendations)
 
