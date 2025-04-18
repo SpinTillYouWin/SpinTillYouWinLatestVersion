@@ -2422,43 +2422,74 @@ def romanowksy_missing_dozen_strategy():
 def fibonacci_to_fortune_strategy():
     recommendations = []
 
+    # Part 1: Fibonacci Strategy (Best Category: Dozens or Columns)
     fib_recommendations = fibonacci_strategy()
     recommendations.append("Fibonacci Strategy:")
     recommendations.append(fib_recommendations)
 
+    # Part 2: Best Even Money Bet
     even_money_sorted = sorted(state.even_money_scores.items(), key=lambda x: x[1], reverse=True)
     even_money_hits = [item for item in even_money_sorted if item[1] > 0]
+    recommendations.append("\nBest Even Money Bet:")
     if even_money_hits:
         best_even_money = even_money_hits[0]
         name, score = best_even_money
-        recommendations.append("\nBest Even Money Bet:")
-        recommendations.append(f"1. {name}: {score}")
+        recommendations.append(f"1. {name} (Score: {score})")
     else:
-        recommendations.append("\nBest Even Money Bet: No hits yet.")
+        recommendations.append("No hits yet.")
 
+    # Part 3: Best Two Columns
     columns_sorted = sorted(state.column_scores.items(), key=lambda x: x[1], reverse=True)
     columns_hits = [item for item in columns_sorted if item[1] > 0]
+    recommendations.append("\nBest Two Columns:")
     if columns_hits:
-        recommendations.append("\nBest Two Columns:")
-        for i, (name, score) in enumerate(columns_hits[:2], 1):
-            recommendations.append(f"{i}. {name}: {score}")
+        # Handle ties for the top two columns
+        top_columns = []
+        scores_seen = set()
+        for name, score in columns_sorted:
+            if len(top_columns) < 2 or score in scores_seen:
+                top_columns.append((name, score))
+                scores_seen.add(score)
+            else:
+                break
+        for i, (name, score) in enumerate(top_columns[:2], 1):
+            recommendations.append(f"{i}. {name} (Score: {score})")
+        # Check for ties
+        if len(top_columns) > 1 and top_columns[0][1] == top_columns[1][1]:
+            tied_columns = [name for name, score in top_columns if score == top_columns[0][1]]
+            recommendations.append(f"Note: Tie for 1st place among {', '.join(tied_columns)} with score {top_columns[0][1]}")
     else:
-        recommendations.append("\nBest Two Columns: No hits yet.")
+        recommendations.append("No hits yet.")
 
+    # Part 4: Best Two Dozens
     dozens_sorted = sorted(state.dozen_scores.items(), key=lambda x: x[1], reverse=True)
     dozens_hits = [item for item in dozens_sorted if item[1] > 0]
+    recommendations.append("\nBest Two Dozens:")
     if dozens_hits:
-        recommendations.append("\nBest Two Dozens:")
-        for i, (name, score) in enumerate(dozens_hits[:2], 1):
-            recommendations.append(f"{i}. {name}: {score}")
+        # Handle ties for the top two dozens
+        top_dozens = []
+        scores_seen = set()
+        for name, score in dozens_sorted:
+            if len(top_dozens) < 2 or score in scores_seen:
+                top_dozens.append((name, score))
+                scores_seen.add(score)
+            else:
+                break
+        for i, (name, score) in enumerate(top_dozens[:2], 1):
+            recommendations.append(f"{i}. {name} (Score: {score})")
+        # Check for ties
+        if len(top_dozens) > 1 and top_dozens[0][1] == top_dozens[1][1]:
+            tied_dozens = [name for name, score in top_dozens if score == top_dozens[0][1]]
+            recommendations.append(f"Note: Tie for 1st place among {', '.join(tied_dozens)} with score {top_dozens[0][1]}")
     else:
-        recommendations.append("\nBest Two Dozens: No hits yet.")
+        recommendations.append("No hits yet.")
 
-    weakest_dozen = min(state.dozen_scores.items(), key=lambda x: x[1])
+    # Part 5: Best Double Street in Weakest Dozen (Excluding Top Two Dozens)
+    weakest_dozen = min(state.dozen_scores.items(), key=lambda x: x[1], default=("1st Dozen", 0))
     weakest_dozen_name, weakest_dozen_score = weakest_dozen
     weakest_dozen_numbers = set(DOZENS[weakest_dozen_name])
 
-    top_two_dozens = [item[0] for item in dozens_sorted[:2]]
+    top_two_dozens = [item[0] for item in dozens_sorted[:2] if item[1] > 0]
     top_two_dozen_numbers = set()
     for dozen_name in top_two_dozens:
         top_two_dozen_numbers.update(DOZENS[dozen_name])
@@ -2466,20 +2497,25 @@ def fibonacci_to_fortune_strategy():
     double_streets_in_weakest = []
     for name, numbers in SIX_LINES.items():
         numbers_set = set(numbers)
-        if numbers_set.issubset(weakest_dozen_numbers) and not numbers_set.intersection(top_two_dozen_numbers):
-            double_streets_in_weakest.append((name, state.six_line_scores[name]))
+        # Check if the double street is entirely within the weakest dozen
+        if numbers_set.issubset(weakest_dozen_numbers):
+            # Exclude any double street that contains numbers from the top two dozens
+            if not numbers_set.intersection(top_two_dozen_numbers):
+                score = state.six_line_scores.get(name, 0)
+                double_streets_in_weakest.append((name, score))
 
+    recommendations.append(f"\nBest Double Street in Weakest Dozen ({weakest_dozen_name}, Score: {weakest_dozen_score}):")
     if double_streets_in_weakest:
         double_streets_sorted = sorted(double_streets_in_weakest, key=lambda x: x[1], reverse=True)
         best_double_street = double_streets_sorted[0]
         name, score = best_double_street
-        recommendations.append(f"\nBest Double Street in Weakest Dozen ({weakest_dozen_name}):")
-        recommendations.append(f"1. {name}: {score}")
+        numbers = ', '.join(map(str, sorted(SIX_LINES[name])))
+        recommendations.append(f"1. {name} (Numbers: {numbers}, Score: {score})")
     else:
-        recommendations.append(f"\nBest Double Street in Weakest Dozen ({weakest_dozen_name}): No suitable double street available.")
+        recommendations.append("No suitable double street available (all overlap with top two dozens or no hits).")
 
     return "\n".join(recommendations)
-
+    
 def three_eight_six_rising_martingale():
     recommendations = []
     sorted_streets = sorted(state.street_scores.items(), key=lambda x: x[1], reverse=True)
