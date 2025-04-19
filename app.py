@@ -5642,7 +5642,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
         print(f"Error in reset_casino_data_button.click handler: {str(e)}")
 
     # Betting progression event handlers
-        def update_config(bankroll, base_unit, stop_loss, stop_win, bet_type, progression, sequence, target_profit):
+    def update_config(bankroll, base_unit, stop_loss, stop_win, bet_type, progression, sequence, target_profit):
         state.bankroll = bankroll
         state.initial_bankroll = bankroll
         state.base_unit = base_unit
