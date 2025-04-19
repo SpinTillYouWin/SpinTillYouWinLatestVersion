@@ -5193,7 +5193,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part15',
         title: 'Spot the Dealer’s Bias!',
-        text: 'Uncover potential biases in the Dealer’s Spin Tracker to gain an edge.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Uncover potential biases in the Dealer’s Spin Tracker to gain an edge.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/ISoFvrnXbHA?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#sides-of-zero-accordion', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#sides-of-zero-accordion');
@@ -5209,7 +5209,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part16a',
         title: 'Trigger Dozen Wins!',
-        text: 'Set up Dozen Triggers to catch hot streaks and patterns.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Set up Dozen Triggers to catch hot streaks and patterns.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/iYfhd8_C1IM?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#dozen-tracker', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#dozen-tracker');
@@ -5225,7 +5225,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part16a1',
         title: 'Catch Dozen Streaks!',
-        text: 'Enable alerts for consecutive Dozen hits to spot trends fast.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Enable alerts for consecutive Dozen hits to spot trends fast.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/e6KAOAoImNQ?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#dozen-tracker', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#dozen-tracker');
@@ -5241,7 +5241,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part16a2',
         title: 'Match Dozen Sequences!',
-        text: 'Track sequences and follow-ups to predict Dozen patterns.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Track sequences and follow-ups to predict Dozen patterns.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/X4mFSMMc21g?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#dozen-tracker', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#dozen-tracker');
@@ -5257,7 +5257,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part16b',
         title: 'Trigger Even Money Magic!',
-        text: 'Set Even Money Triggers to catch winning streaks and traits.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Set Even Money Triggers to catch winning streaks and traits.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/5z7TjjwpTs0?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#dozen-tracker', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#dozen-tracker');
@@ -5273,7 +5273,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part16b1',
         title: 'Even Money Streaks On!',
-        text: 'Get alerts for consecutive Even Money hits with And/Or logic.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Get alerts for consecutive Even Money hits with And/Or logic.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/gjQcOdNDGKc?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#dozen-tracker', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#dozen-tracker');
@@ -5289,7 +5289,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part16b2',
         title: 'Track Even Money Traits!',
-        text: 'Spot consecutive identical traits to refine your Even Money bets.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Spot consecutive identical traits to refine your Even Money bets.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/iRz_y8DeqCU?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#dozen-tracker', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#dozen-tracker');
@@ -5305,7 +5305,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part17',
         title: 'Learn Top Strategies!',
-        text: 'Explore winning strategies with video tutorials to level up your game.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Explore winning strategies with video tutorials to level up your game.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/t_5gvje0SKI?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#top-strategies', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#top-strategies');
@@ -5321,7 +5321,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       tour.addStep({
         id: 'part18',
         title: 'Share Your Winning Ideas!',
-        text: 'Submit feedback or suggest new strategies to enhance the app.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        text: 'Submit feedback or suggest new strategies to enhance the app.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/9MgXNg2oDvk?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#feedback-section', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#feedback-section');
