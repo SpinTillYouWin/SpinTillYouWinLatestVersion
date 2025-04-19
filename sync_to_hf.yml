@@ -20,7 +20,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
         with:
           source_file: '.'
-          destination_repo: 'ysforce1/SpinTillYouWinV3.0RunningLatestNotRunningInAnotherSpace'
+          destination_repo: 'ysforce1/SpinTillYouWinLatestVersion'
           destination_branch: 'main'
           user_email: 'yusufozusennew@gmail.com'
           user_name: 'SpinTILLYOUWin'
