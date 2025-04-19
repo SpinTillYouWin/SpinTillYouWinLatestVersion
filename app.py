@@ -4009,6 +4009,14 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
             {
                 "title": "S.T.Y.W: Zero Jack 2-2-3 Roulette Strategy",
                 "link": "https://youtu.be/I_F9Wys3Ww0"
+            },
+            {
+                "title": "S.T.Y.W: Fibonacci to Fortune (My Top Strategy) - Follow The Winner",
+                "link": "https://youtu.be/bwa0FUk6Yps"
+            },
+            {
+                "title": "S.T.Y.W: Triple Entry Max Climax Strategy",
+                "link": "https://youtu.be/64aq0GEPww0"
             }
         ],
         "Dozen Strategies": [
@@ -4027,6 +4035,18 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
             {
                 "title": "S.T.Y.W: The Overlap Jackpot (4 Streets + 2 Dozens) Strategy",
                 "link": "https://youtu.be/rTqdMQk4_I4"
+            },
+            {
+                "title": "S.T.Y.W: Fibonacci to Fortune (My Top Strategy) - Follow The Winner",
+                "link": "https://youtu.be/bwa0FUk6Yps"
+            },
+            {
+                "title": "S.T.Y.W: Double Up: Dozen & Street Strategy",
+                "link": "https://youtu.be/Hod5gxusAVE"
+            },
+            {
+                "title": "S.T.Y.W: Triple Entry Max Climax Strategy",
+                "link": "https://youtu.be/64aq0GEPww0"
             }
         ],
         "Column Strategies": [
@@ -4037,6 +4057,10 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
             {
                 "title": "S.T.Y.W: Victory Vortex (Dozen Domination)",
                 "link": "https://youtu.be/aKGA_csI9lY"
+            },
+            {
+                "title": "S.T.Y.W: Fibonacci to Fortune (My Top Strategy) - Follow The Winner",
+                "link": "https://youtu.be/bwa0FUk6Yps"
             }
         ],
         "Street Strategies": [
@@ -4051,12 +4075,20 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
             {
                 "title": "S.T.Y.W: The Overlap Jackpot (4 Streets + 2 Dozens) Strategy",
                 "link": "https://youtu.be/rTqdMQk4_I4"
+            },
+            {
+                "title": "S.T.Y.W: Double Up: Dozen & Street Strategy",
+                "link": "https://youtu.be/Hod5gxusAVE"
             }
         ],
         "Double Street Strategies": [
             {
                 "title": "S.T.Y.W: Dynamic Play: 1 Dozen with 4 Streets or 2 Double Streets?",
                 "link": "https://youtu.be/8aMHrvuzBGU"
+            },
+            {
+                "title": "S.T.Y.W: The Classic Five Double Street",
+                "link": "https://youtu.be/XX7lSDElwWI"
             }
         ],
         "Corner Strategies": [
@@ -4065,7 +4097,12 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
                 "link": "https://youtu.be/zw7eUllTDbg"
             }
         ],
-        "Split Strategies": [],
+       "Split Strategies": [
+            {
+                "title": "S.T.Y.W: Triple Entry Max Climax Strategy",
+                "link": "https://youtu.be/64aq0GEPww0"
+            }
+        ],
         "Number Strategies": [
             {
                 "title": "The Pulse Wheel Strategy (6 Numbers +1 Neighbours)",
