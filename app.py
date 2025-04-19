@@ -2482,26 +2482,35 @@ def fibonacci_to_fortune_strategy():
 
     # Part 1: Dozens (Top 2)
     sorted_dozens = sorted(state.dozen_scores.items(), key=lambda x: x[1], reverse=True)
-    dozens_hits = [item for item in sorted_dozens if item[1] > 0]
+    print(f"fibonacci_to_fortune_strategy: Sorted dozens = {sorted_dozens}")
     recommendations.append("Best Two Dozens:")
-    if dozens_hits:
+    if len(sorted_dozens) >= 2:
         for i, (name, score) in enumerate(sorted_dozens[:2], 1):
             recommendations.append(f"{i}. {name} (Score: {score})")
+    elif sorted_dozens:
+        name, score = sorted_dozens[0]
+        recommendations.append(f"1. {name} (Score: {score})")
+        recommendations.append("2. No other dozens available.")
     else:
         recommendations.append("No hits yet.")
 
     # Part 2: Columns (Top 2)
     sorted_columns = sorted(state.column_scores.items(), key=lambda x: x[1], reverse=True)
-    columns_hits = [item for item in sorted_columns if item[1] > 0]
+    print(f"fibonacci_to_fortune_strategy: Sorted columns = {sorted_columns}")
     recommendations.append("\nBest Two Columns:")
-    if columns_hits:
+    if len(sorted_columns) >= 2:
         for i, (name, score) in enumerate(sorted_columns[:2], 1):
             recommendations.append(f"{i}. {name} (Score: {score})")
+    elif sorted_columns:
+        name, score = sorted_columns[0]
+        recommendations.append(f"1. {name} (Score: {score})")
+        recommendations.append("2. No other columns available.")
     else:
         recommendations.append("No hits yet.")
 
     # Part 3: Best Even Money Bet
     sorted_even_money = sorted(state.even_money_scores.items(), key=lambda x: x[1], reverse=True)
+    print(f"fibonacci_to_fortune_strategy: Sorted even money = {sorted_even_money}")
     even_money_hits = [item for item in sorted_even_money if item[1] > 0]
     recommendations.append("\nBest Even Money Bet:")
     if even_money_hits:
@@ -2516,7 +2525,7 @@ def fibonacci_to_fortune_strategy():
     weakest_dozen_name, weakest_dozen_score = weakest_dozen
     weakest_dozen_numbers = set(DOZENS[weakest_dozen_name])
 
-    top_two_dozens = [item[0] for item in sorted_dozens[:2] if item[1] > 0]
+    top_two_dozens = [item[0] for item in sorted_dozens[:2]]
     top_two_dozen_numbers = set()
     for dozen_name in top_two_dozens:
         top_two_dozen_numbers.update(DOZENS[dozen_name])
@@ -2524,11 +2533,11 @@ def fibonacci_to_fortune_strategy():
     double_streets_in_weakest = []
     for name, numbers in SIX_LINES.items():
         numbers_set = set(numbers)
-        if numbers_set.issubset(weakest_dozen_numbers):
-            if not numbers_set.intersection(top_two_dozen_numbers):
-                score = state.six_line_scores.get(name, 0)
-                double_streets_in_weakest.append((name, score))
+        if numbers_set.issubset(weakest_dozen_numbers) and not numbers_set.intersection(top_two_dozen_numbers):
+            score = state.six_line_scores.get(name, 0)
+            double_streets_in_weakest.append((name, score))
 
+    print(f"fibonacci_to_fortune_strategy: Double streets in weakest dozen ({weakest_dozen_name}) = {double_streets_in_weakest}")
     recommendations.append(f"\nBest Double Street in Weakest Dozen ({weakest_dozen_name}, Score: {weakest_dozen_score}):")
     if double_streets_in_weakest:
         double_streets_sorted = sorted(double_streets_in_weakest, key=lambda x: x[1], reverse=True)
