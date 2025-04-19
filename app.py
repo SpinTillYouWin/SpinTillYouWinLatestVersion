@@ -4917,6 +4917,296 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
     """)
     print("CSS Updated")
 
+    # Shepherd.js Tour Script
+    gr.HTML("""
+    <script>
+      const tour = new Shepherd.Tour({
+        defaultStepOptions: {
+          cancelIcon: { enabled: true },
+          scrollTo: { behavior: 'smooth', block: 'center' },
+          classes: 'shepherd-theme-arrows',
+          buttons: [
+            { text: 'Back', action: function() { return this.back(); } },
+            { text: 'Next', action: function() { return this.next(); } },
+            { text: 'Skip', action: function() { return this.cancel(); } }
+          ]
+        },
+        useModalOverlay: true
+      });
+
+      // Debug function to log step transitions
+      function logStep(stepId, nextStepId) {
+        return () => {
+          console.log(`Moving from ${stepId} to ${nextStepId}`);
+          tour.next();
+        };
+      }
+
+      // Force accordion open with direct DOM manipulation and Promise
+      function forceAccordionOpen(accordionId) {
+        console.log(`Checking accordion: ${accordionId}`);
+        return new Promise(resolve => {
+          const accordion = document.querySelector(accordionId);
+          if (!accordion) {
+            console.warn(`Accordion ${accordionId} not found`);
+            resolve();
+            return;
+          }
+          const content = accordion.querySelector('.gr-box') || accordion.nextElementSibling;
+          if (content && window.getComputedStyle(content).display === 'none') {
+            console.log(`Forcing ${accordionId} open`);
+            content.style.display = 'block';
+            accordion.setAttribute('open', '');
+            setTimeout(() => {
+              if (window.getComputedStyle(content).display === 'none') {
+                console.warn(`Fallback: Forcing visibility for ${accordionId}`);
+                content.style.display = 'block';
+              }
+              resolve();
+            }, 500);
+          } else {
+            console.log(`${accordionId} already open or no content found`);
+            resolve();
+          }
+        });
+      }
+
+      // Step 1: Header
+      tour.addStep({
+        id: 'part1',
+        title: 'Your Roulette Adventure Begins!',
+        text: 'Welcome to the Roulette Spin Analyzer! This tour will guide you through the key features to master your game.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/H7TLQr1HnY0?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#header-row', on: 'bottom' },
+        buttons: [
+          { text: 'Next', action: logStep('Part 1', 'Part 2') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 2: Roulette Table
+      tour.addStep({
+        id: 'part2',
+        title: 'Spin the Wheel, Start the Thrill!',
+        text: 'Click numbers on the European Roulette Table to record spins and track your game.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/ja454kZwndo?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '.roulette-table', on: 'right' },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 2', 'Part 3') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 3: Last Spins Display
+      tour.addStep({
+        id: 'part3',
+        title: 'Peek at Your Spin Streak!',
+        text: 'View your recent spins here, color-coded for easy tracking.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/a9brOFMy9sA?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '.last-spins-container', on: 'bottom' },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 3', 'Part 4') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 4: Spin Controls
+      tour.addStep({
+        id: 'part4',
+        title: 'Master Your Spin Moves!',
+        text: 'Use these buttons to undo spins, generate random spins, or clear the display.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/xG8z1S4HJK4?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#undo-spins-btn', on: 'bottom' },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 4', 'Part 5') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 5: Selected Spins Textbox
+      tour.addStep({
+        id: 'part5',
+        title: 'Jot Spins, Count Wins!',
+        text: 'Manually enter spins here (e.g., 5, 12, 0) to analyze your game.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/2-k1EyKUM8U?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#selected-spins', on: 'bottom' },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 5', 'Part 6') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 6: Analyze Button
+      tour.addStep({
+        id: 'part6',
+        title: 'Analyze and Reset Like a Pro!',
+        text: 'Click "Analyze Spins" to break down your spins and get insights.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/8plHP2RIR3o?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '.green-btn', on: 'bottom' },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 6', 'Part 7') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 7: Dynamic Table
+      tour.addStep({
+        id: 'part7',
+        title: 'Light Up Your Lucky Spots!',
+        text: 'The Dynamic Roulette Table highlights trending numbers and bets based on your strategy.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/zT9d06sn07E?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#dynamic-table-heading', on: 'bottom' },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 7', 'Part 8') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 8: Betting Progression Tracker
+      tour.addStep({
+        id: 'part8',
+        title: 'Bet Smart, Track the Art!',
+        text: 'Track your betting progression (e.g., Martingale, Fibonacci) to manage your bankroll.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/jkE-w2MOJ0o?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '.betting-progression', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('.betting-progression');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 8', 'Part 9') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 9: Color Code Key
+      tour.addStep({
+        id: 'part9',
+        title: 'Paint Your Winning Hue!',
+        text: 'Customize colors for the Dynamic Table to highlight hot and cold bets.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/pUtW2HnWVL8?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#color-code-key', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#color-code-key');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 9', 'Part 10') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 10: Color Code Key (Continued)
+      tour.addStep({
+        id: 'part10',
+        title: 'Decode the Color Clue!',
+        text: 'Understand the color coding to make informed betting decisions.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/PGBEoOOh9Gk?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#color-code-key', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#color-code-key');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 10', 'Part 11') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 11: Spin Analysis
+      tour.addStep({
+        id: 'part11',
+        title: 'Unleash the Spin Secrets!',
+        text: 'Dive into detailed spin analysis to uncover patterns and trends.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/MpcuwWnMdrg?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#spin-analysis', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#spin-analysis');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 11', 'Part 12') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 12: Save/Load Session
+      tour.addStep({
+        id: 'part12',
+        title: 'Save Your Spin Glory!',
+        text: 'Save your session or load a previous one to continue your analysis.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/pHLEa2I0jjE?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#save-load-session', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#save-load-session');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 12', 'Part 13') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 13: Strategy Selection
+      tour.addStep({
+        id: 'part13',
+        title: 'Pick Your Strategy Groove!',
+        text: 'Choose a betting strategy to optimize your game plan.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/iuGEltUVbqc?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#select-category', on: 'left' },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 13', 'Part 14') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 14: Casino Data Insights
+      tour.addStep({
+        id: 'part14',
+        title: 'Boost Wins with Casino Intel!',
+        text: 'Enter casino data to highlight winning trends and make smarter bets.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/FJIczwv9_Ss?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#casino-data-insights', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#casino-data-insights');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Finish', action: () => { console.log('Tour completed'); tour.complete(); } }
+        ]
+      });
+
+      // Optional Step 15: Dozen Tracker (Comment out if not desired)
+      /*
+      tour.addStep({
+        id: 'part15',
+        title: 'Track Dozen Trends!',
+        text: 'Monitor Dozen hits and set alerts for consecutive patterns or sequences.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/FJIczwv9_Ss?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#dozen-tracker', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#dozen-tracker');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Finish', action: () => { console.log('Tour completed'); tour.complete(); } }
+        ]
+      });
+      */
+
+      function startTour() {
+        console.log('Tour starting...');
+        setTimeout(() => {
+          const criticalElements = ['#header-row', '.roulette-table', '#selected-spins', '#undo-spins-btn'];
+          const missingElements = criticalElements.filter(el => !document.querySelector(el));
+          if (missingElements.length > 0) {
+            console.error(`Cannot start tour: Missing elements: ${missingElements.join(', ')}`);
+            alert('Tour unavailable: Some components are missing. Please refresh the page or contact support.');
+            return;
+          }
+          console.log('DOM ready, starting tour');
+          tour.start();
+        }, 1000); // Increased delay to ensure Gradio rendering
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("DOM Loaded, #header-row exists:", !!document.querySelector("#header-row"));
+      });
+    </script>
+    """)
+
     # Event Handlers (moved to the end)
     try:
         spins_textbox.change(
@@ -4959,7 +5249,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
             outputs=[gr.State(), even_money_tracker_output]
         )
     except Exception as e:
-        print(f"Error in spines_textbox.change handler: {str(e)}")
+        print(f"Error in spins_textbox.change handler: {str(e)}")
     try:
         spins_display.change(
             fn=update_spin_counter,
