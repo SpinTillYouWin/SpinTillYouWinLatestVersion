@@ -4405,8 +4405,8 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
                 base_unit_input = gr.Number(label="Base Unit", value=10)
                 stop_loss_input = gr.Number(label="Stop Loss", value=-500)
                 stop_win_input = gr.Number(label="Stop Win", value=200)
-                target_profit_input = gr.Number(label="Target Profit (Units)", value=10, min_value=1, step=1)
-            # Line 1: Added the new input above this line
+                # Line 1: Updated line with min_value removed
+                target_profit_input = gr.Number(label="Target Profit (Units)", value=10, step=1)
             with gr.Row():
                 bet_type_dropdown = gr.Dropdown(
                     label="Bet Type",
