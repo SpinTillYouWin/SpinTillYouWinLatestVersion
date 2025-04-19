@@ -9,7 +9,7 @@ from roulette_data import (
 )
 
 def update_scores_batch(spins):
-    """Update scores for a batch of spins and return actions for undoOoO."""
+    """Update scores for a batch of spins and return actions for undoOo."""
     action_log = []
     for spin in spins:
         spin_value = int(spin)
