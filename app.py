@@ -5705,7 +5705,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
     except Exception as e:
         print(f"Error in stop_loss_input.change handler: {str(e)}")
 
-        try:
+    try:
     stop_win_input.change(
             fn=update_config,
             inputs=[bankroll_input, base_unit_input, stop_loss_input, stop_win_input, bet_type_dropdown, progression_dropdown, labouchere_sequence, target_profit_input],
