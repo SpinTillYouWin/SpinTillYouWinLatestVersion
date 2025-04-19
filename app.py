@@ -5184,26 +5184,153 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
         },
         buttons: [
           { text: 'Back', action: tour.back },
-          { text: 'Finish', action: () => { console.log('Tour completed'); tour.complete(); } }
+          { text: 'Next', action: logStep('Part 14', 'Part 15') },
+          { text: 'Skip', action: tour.cancel }
         ]
       });
 
-      // Optional Step 15: Dozen Tracker (Comment out if not desired)
-      /*
+      // Step 15: Dealer’s Spin Tracker
       tour.addStep({
         id: 'part15',
-        title: 'Track Dozen Trends!',
-        text: 'Monitor Dozen hits and set alerts for consecutive patterns or sequences.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/FJIczwv9_Ss?fs=0" frameborder="0"></iframe>',
+        title: 'Spot the Dealer’s Bias!',
+        text: 'Uncover potential biases in the Dealer’s Spin Tracker to gain an edge.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#sides-of-zero-accordion', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#sides-of-zero-accordion');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 15', 'Part 16a') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 16a: Create Dozen/Even Bet Triggers - Dozen Triggers
+      tour.addStep({
+        id: 'part16a',
+        title: 'Trigger Dozen Wins!',
+        text: 'Set up Dozen Triggers to catch hot streaks and patterns.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
         attachTo: { element: '#dozen-tracker', on: 'top' },
         beforeShowPromise: function() {
           return forceAccordionOpen('#dozen-tracker');
         },
         buttons: [
           { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 16a', 'Part 16a1') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 16a1: Create Dozen/Even Bet Triggers - Dozen Triggers: Alert on Consecutive Dozen Hits
+      tour.addStep({
+        id: 'part16a1',
+        title: 'Catch Dozen Streaks!',
+        text: 'Enable alerts for consecutive Dozen hits to spot trends fast.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#dozen-tracker', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#dozen-tracker');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 16a1', 'Part 16a2') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 16a2: Create Dozen/Even Bet Triggers - Dozen Triggers: Sequence Length to Match (X), Follow-Up Spins to Track (Y)
+      tour.addStep({
+        id: 'part16a2',
+        title: 'Match Dozen Sequences!',
+        text: 'Track sequences and follow-ups to predict Dozen patterns.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#dozen-tracker', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#dozen-tracker');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 16a2', 'Part 16b') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 16b: Create Dozen/Even Bet Triggers - Even Money Bet Triggers
+      tour.addStep({
+        id: 'part16b',
+        title: 'Trigger Even Money Magic!',
+        text: 'Set Even Money Triggers to catch winning streaks and traits.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#dozen-tracker', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#dozen-tracker');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 16b', 'Part 16b1') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 16b1: Create Dozen/Even Bet Triggers - Even Money Bet Triggers - Alert on Consecutive Even Money Hits (And/Or)
+      tour.addStep({
+        id: 'part16b1',
+        title: 'Even Money Streaks On!',
+        text: 'Get alerts for consecutive Even Money hits with And/Or logic.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#dozen-tracker', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#dozen-tracker');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 16b1', 'Part 16b2') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 16b2: Create Dozen/Even Bet Triggers - Even Money Bet Triggers - Track Consecutive Identical Traits
+      tour.addStep({
+        id: 'part16b2',
+        title: 'Track Even Money Traits!',
+        text: 'Spot consecutive identical traits to refine your Even Money bets.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#dozen-tracker', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#dozen-tracker');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 16b2', 'Part 17') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 17: Top Strategies with Roulette Spin Analyzer
+      tour.addStep({
+        id: 'part17',
+        title: 'Learn Top Strategies!',
+        text: 'Explore winning strategies with video tutorials to level up your game.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#top-strategies', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#top-strategies');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
+          { text: 'Next', action: logStep('Part 17', 'Part 18') },
+          { text: 'Skip', action: tour.cancel }
+        ]
+      });
+
+      // Step 18: Feedback & Suggestions
+      tour.addStep({
+        id: 'part18',
+        title: 'Share Your Winning Ideas!',
+        text: 'Submit feedback or suggest new strategies to enhance the app.<br><iframe width="280" height="158" src="https://www.youtube.com/embed/placeholder?fs=0" frameborder="0"></iframe>',
+        attachTo: { element: '#feedback-section', on: 'top' },
+        beforeShowPromise: function() {
+          return forceAccordionOpen('#feedback-section');
+        },
+        buttons: [
+          { text: 'Back', action: tour.back },
           { text: 'Finish', action: () => { console.log('Tour completed'); tour.complete(); } }
         ]
       });
-      */
 
       function startTour() {
         console.log('Tour starting... Attempting to initialize Shepherd.js tour.');
@@ -5227,7 +5354,11 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
             '#spin-analysis',
             '#save-load-session',
             '#select-category',
-            '#casino-data-insights'
+            '#casino-data-insights',
+            '#sides-of-zero-accordion',
+            '#dozen-tracker',
+            '#top-strategies',
+            '#feedback-section'
           ];
           const missingElements = criticalElements.filter(el => !document.querySelector(el));
           if (missingElements.length > 0) {
