@@ -155,7 +155,7 @@ class RouletteState:
         self.current_bet = self.base_unit
         self.next_bet = self.base_unit
         self.progression_state = None  # e.g., Fibonacci index or Labouchere list
-        self.labouchere_sequence = "1, 2, 3, 4"  # Default Labouchere sequence
+        self.labouchere_sequence = ""  # Default Labouchere sequence
         self.target_profit = 10  # Default target profit in units for Labouchere
         # Line 1: Added the new initialization above this line
         self.is_stopped = False
@@ -4420,7 +4420,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
                 )
                 labouchere_sequence = gr.Textbox(
                     label="Labouchere Sequence (comma-separated)",
-                    value="1, 2, 3, 4",
+                    value="",
                     visible=False
                 )
             with gr.Row():
