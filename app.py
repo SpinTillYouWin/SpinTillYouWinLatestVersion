@@ -4948,8 +4948,7 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
             outputs=[gr.State(), even_money_tracker_output]
         )
     except Exception as e:
-        print(f"Error in spins_textbox.change handler: {str(e)}")
-    
+        print(f"Error in spines_textbox.change handler: {str(e)}")
     try:
         spins_display.change(
             fn=update_spin_counter,
