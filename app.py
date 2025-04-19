@@ -3925,6 +3925,17 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
     # 1. Row 1: Header (Moved to the top)
     with gr.Row(elem_id="header-row"):
         gr.Markdown("<h1 style='text-align: center; color: #ff9800;'>Roulette Spin Analyzer</h1>")
+        gr.HTML(
+            '''
+            <button id="start-tour-btn" onclick="startTour()" style="padding: 8px 15px; background-color: #ff9800; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: transform 0.2s ease;">🚀 Take the Tour!</button>
+            <style>
+                #start-tour-btn:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                }
+            </style>
+            '''
+        )
 
     # Define state and components used across sections
     spins_display = gr.State(value="")
