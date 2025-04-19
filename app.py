@@ -5187,22 +5187,49 @@ with gr.Blocks(title="Roulette Spin Analyzer") as demo:
       */
 
       function startTour() {
-        console.log('Tour starting...');
+        console.log('Tour starting... Attempting to initialize Shepherd.js tour.');
+        if (typeof Shepherd === 'undefined') {
+          console.error('Shepherd.js is not loaded. Check CDN or network connectivity.');
+          alert('Tour unavailable: Shepherd.js failed to load. Please refresh the page or check your internet connection.');
+          return;
+        }
         setTimeout(() => {
-          const criticalElements = ['#header-row', '.roulette-table', '#selected-spins', '#undo-spins-btn'];
+          console.log('Checking DOM elements for tour...');
+          const criticalElements = [
+            '#header-row',
+            '.roulette-table',
+            '#selected-spins',
+            '#undo-spins-btn',
+            '.last-spins-container',
+            '.green-btn',
+            '#dynamic-table-heading',
+            '.betting-progression',
+            '#color-code-key',
+            '#spin-analysis',
+            '#save-load-session',
+            '#select-category',
+            '#casino-data-insights'
+          ];
           const missingElements = criticalElements.filter(el => !document.querySelector(el));
           if (missingElements.length > 0) {
             console.error(`Cannot start tour: Missing elements: ${missingElements.join(', ')}`);
-            alert('Tour unavailable: Some components are missing. Please refresh the page or contact support.');
+            alert(`Tour unavailable: Missing components (${missingElements.join(', ')}). Please refresh the page or contact support.`);
             return;
           }
-          console.log('DOM ready, starting tour');
-          tour.start();
-        }, 1000); // Increased delay to ensure Gradio rendering
+          console.log('All critical elements found. Starting tour.');
+          try {
+            tour.start();
+            console.log('Tour started successfully.');
+          } catch (error) {
+            console.error('Error starting tour:', error);
+            alert('Tour failed to start due to an unexpected error. Please check the console for details.');
+          }
+        }, 2000); // Increased delay to ensure Gradio rendering
       }
 
       document.addEventListener("DOMContentLoaded", () => {
         console.log("DOM Loaded, #header-row exists:", !!document.querySelector("#header-row"));
+        console.log("Shepherd.js available:", typeof Shepherd !== 'undefined');
       });
     </script>
     """)
